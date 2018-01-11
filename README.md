@@ -3,16 +3,23 @@ Descrierea conceptului
 Prima abordare
 --------------
 Un sistem de localizare bazat pe analiza fluxului video inspirat din modul de funcționare al creierului uman.
+
 Un om este constient de pozitia aproximativa in care se afla facand apel la cunostiintele apriorii despre pozitia anumitor repere, de exemplu ajungand cu metroul in statia Politehnica se poate recunoaste statia deoarece are un aspect specific. Recunoasterea statie ofera o informatie foarte vaga despre pozitionare exacta, se stie doar ca este zona Politehnicii. La coborarea din tren (in urma cu cativa ani) aproape de scari exista un tonomat cu mancare. Recunoasterea tonomatului confera o pozitionare si mai exacta. Urcand pe scarile rulante la mijlocul acestora exista desentata cu marcarul o bucata de arta urbana (cineva s-a semnat pe perete). Recunoasterea acestui detaliu confera o localizare foarte precisa. Exemplul poate continua cu detalii din ce in ce mai fine.
+
 De remarcat ca anumite repere au sens de sinte stataor. De exemplu statia Politehnica ofera localizarea vaga in zona politehnicii insa tonomatul de mancare nu ofera localizarea exacta decat daca este deja presupusa pozitionarea in zona Politehnicii. In caz contrar recunoasterea unui tonomat oarecare, in afara contextului, nu ofera nicio informatie. Acelasi rationament pentru arta urbana de pe scarile rulante. Astfel reperele pe care le urmarim se impart in doua categorii: repere de sine statatoare sau specifice (ex. Statia Politehnica, statia Unirii, cladirea rectoratului s.a.m.d.) sau repere contextuale sau generice (ex. Un tonomat de mancare, un cos de gunoi, o poarta rotativa). Reperele specifice sunt unice, au asociata o unica localizare. Reperele generice pot exista in multe locuri insa au sens numai in contextul in care deja a fost gasit un reper specific.
+
 La prima vedere este o abordare atractiva. Avand la dispozitie memoria unui calculator putem tine intr-o baza de date coordonatele reprelor si genera pozitia cu o acuratete buna. Apar insa probleme.
+
 Principala problema este ca aboradrea necesita o etapa de “invatare”. Pentru a fi o optiune viabila trebuie o invatarea automata asistata de GPS. Invatarea are urmatoarele etape: detectarea automata a posibilelor repre si inregistrarea pozitiei GPS apoi crearea unui clasificator (cascada Haar, cascada LBP, CNN s.a.m.d.) care sa poata recunoaste repreul. Un reper generic poate sa existe de mai multe ori in contextul unui reper specific: la statia Politehnica pot exista doua tonomate de mancare. Nu se poate diferentia intre cele doua decat prin introducerea unui reper intermediar care sa isi extinda contextul doar asupra unui dintre tonomate. Reperele generice isi pot schimba pozitia, pot sa dispara s.a.m.d.
+
 In plus oricat de rafinata ar fi aceasta abordare nu ar putea obtine pozitia mai precis decat un senzor GPS si nu ar putea fi mai eficienta din punctul de vedere al utilizarii bateriei (utilizarea camerei plus procesarea necesara si probabil accesul la retea, deoarece nu se poate salva local toata baza de date cu repere, va consuma posibil mai multa baterie decat GPS-ul).
 
 A doua abordare
 ----------------
 O problema reala intalnita la dispozitivele GPS este pierderea semnalului in zone subterane cum ar fi tuneluri sau parcari. Putem folosi fluxul video pentru a deduce directia de miscare si a deduce pozitia GPS daca ar exista semnal. De asemenea puteam procesa fluxul video si in zone cu semnal GPS pentru a detecta miscarea si a reduce folosirea GPS-ului.
+
 Implementarea propusa este urmatoare: se va identifica in fiecare cadru nu numar de 16 colturi. Se selecta o fereastra 6x6 centrata in fiecare colt. Presupunem ca de la un cadru la altul intensitate colturilor, si a celor 36 vecini, sunt cvasi constante. Se cauta intre ferestrele decpate la un cadru anterior ferastra cea mai apropia pentru fiecare dintre ferestrele de la cadrul curent.
+  
 Exista posibilitatea ca anumite colturi prezente in cadrul anterior sa nu se mai regaseasca in cadrul curent. Exista, de asemenea, posibilitatea ca unele colturi din cadrul curent sa nu fi existat in cadrul anterior. Avand in vedere aceste doua cazuri de exceptii se considera ca doua colturi din cadre diferite sunt aceleasi numai daca distanta dintre ferestrele care le incadreaza este mai mica decat un prag. Cunoscand corespondenta intre colturi din cadre consecutive se poate calcula deplasarea dx si dy, in pixeli, a fiecarui colt. Media deplasarilor va indica deplasarea efectiva care poate fi corelata cu deplasarea in metrii.
 
 Arhitectura implementarii
