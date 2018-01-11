@@ -40,10 +40,16 @@ Solver for ConstraintLayout, Android Support Repository, Google Repository
 Rularea script-ului de procesare OpenCV
 -------------------------------------------
 Scriptul se afla la urmatoarea cale relativ la baza repository-ului git: CV_script -> “A doua abordare”.
-Este necesar Python 3.6.3. Sunt necesare librarile opencv-python, numpy si matplotlib care pot fi instalate utilizand urmatoarea comanda:
-Python -m pip install opencv-python numpy matplotlib
-Scriptul de procesare poate fi pornit in doua moduri: in modul de test si in modul (eng.) live. In modul de test va fi analizat fisierul video taxi.mp4 si rezultatele vor fi afisate in terminal. Pentru a trece la cadrul urmator in modul test trebuie apasta o tasta in afara de litera ‘q’, la tastatura. Tasta ‘q’ va inchide programul. Pentru a porni scriptul in modul de test trebuie rulata comanda
 
+Este necesar Python 3.6.3. Sunt necesare librarile opencv-python, numpy si matplotlib care pot fi instalate utilizand urmatoarea comanda:
+```
+Python -m pip install opencv-python numpy matplotlib
+```
+Scriptul de procesare poate fi pornit in doua moduri: in modul de test si in modul (eng.) live. In modul de test va fi analizat fisierul video taxi.mp4 si rezultatele vor fi afisate in terminal. Pentru a trece la cadrul urmator in modul test trebuie apasta o tasta in afara de litera ‘q’, la tastatura. Tasta ‘q’ va inchide programul. Pentru a porni scriptul in modul de test trebuie rulata comanda:
+```
 Python .\video_proc.py
+```
 In modul live scriptul are nevoie de un argument. Argumentul necesar este adresa IP a telefonului. Aceasta poate fi aflata din setarile telefonului, de exemplu daca este vorba de WiFi, in meniul de WiFi, efectuand atingere pe reteaua la care este conectat telefonul va aparea un dialog cu informatii precum adresa IP. Folosind aceasta adresa este necesar ca telefonul si calculatorul care ruleaza scriptul sa fie in aceiasi retea. In modul live nu este necesara apasarea vreunei taste pentru a trece la urmatorul cadru; rezultatele sunt afisate atat in termina dar sunt si transmise prin TCP catre portul 9000 al telefonului. Comanda pentru pornire in modul live este:
+```
 Python .\video_proc.py <IP>
+```
